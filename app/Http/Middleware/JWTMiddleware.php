@@ -34,7 +34,7 @@ class JWTMiddleware
             }
             return response()->json([
                 "error"=> "token invalido",
-            ],401);
+            ],404);
         }
         return $next($request);
     }
