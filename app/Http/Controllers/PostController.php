@@ -27,16 +27,22 @@ class PostController extends Controller
         //
         $token = $request->header('Authorization');
         $user = JWTAuth::toUser($token);
-        $new_post=Post::create([
-            'post_title'=>$request->post_title,
-            'post_description'=>$request->post_description,
-            'post_image_dir'=>$request->post_image_dir,
-            'post_likes'=>$request->post_likes,
-            'post_comments'=>$request->post_comments,
-            'user_id'=>$user->id
-        ]);
-        return response()->json([
-            'message'=>'exito',],200);
+        try{
+            $new_post=Post::create([
+                'post_title'=>$request->post_title,
+                'post_description'=>$request->post_description,
+                'post_image_dir'=>$request->post_image_dir,
+                'post_likes'=>$request->post_likes,
+                'post_comments'=>$request->post_comments,
+                'user_id'=>$user->id
+            ]);
+            return response()->json([
+                'message'=>'exito',],200);
+        }catch(\Exception $e){
+            return response()->json([
+        'message'=> $e] ,500);
+        }
+
     }
 
     /**
