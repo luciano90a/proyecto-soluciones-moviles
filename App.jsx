@@ -9,18 +9,22 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Login  from './src/views/Login';
-import Register from './src/views/Register';
+import { Navigator } from './src/navigator/Navigator';
+import { AuthProvider } from './src/context/Authcontext';
 
-const Stack = createNativeStackNavigator();
+const AppState = ({children}) => {
+    return (
+      <AuthProvider>
+        {children}
+      </AuthProvider>
+    )
+  }
 const App =()=>{
-  
     return(
         <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen name='Login' component={Login}/>
-                <Stack.Screen name='Register' component={Register}/>
-            </Stack.Navigator>
+            <AppState>
+            <Navigator/>
+            </AppState>
         </NavigationContainer>
     );
 };
