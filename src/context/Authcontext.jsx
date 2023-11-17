@@ -17,10 +17,10 @@ export const AuthProvider = ({ children }) => {
     check_token();
 }, []);
   
-  const sign_up =async({name,email,password})=>{
+  const sign_up =async({name,username,lastname,email,password})=>{
     console.log(name,email,password);
     try{
-      const {data} = await Userapi.post('/api/register',{name,email,password});
+      const {data} = await Userapi.post('/api/register',{name,username,lastname,email,password});
       dispatch(
         {
           type:'sign_up',

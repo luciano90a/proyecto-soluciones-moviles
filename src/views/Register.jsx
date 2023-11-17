@@ -1,15 +1,18 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, Button, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { Authcontext } from '../context/Authcontext';
 import { useForm } from '../hooks/Form';
 import { useNavigation } from '@react-navigation/native';
 
 const Register = () => {
+  var skill_user = [];
   const [skill, setSkill] = useState('');
   const [skills, setSkills] = useState([]);
   const { sign_up } = useContext(Authcontext);
-  const { name, email, password, onChange } = useForm({
+  const { name, username, lastname, email, password, onChange } = useForm({
     name: '',
+    username: '',
+    lastname: '',
     email: '',
     password: '',
   });
@@ -17,12 +20,13 @@ const Register = () => {
   const navigation = useNavigation();
 
   const register = () => {
-    sign_up({ name, email, password });
+    sign_up({ name, username, lastname, email, password });
   };
 
   const addSkill = () => {
     if (skill && skills.length < 3) {
       setSkills([...skills, skill]);
+      skill_user.push(skill);
       setSkill('');
     }
   };
@@ -39,6 +43,20 @@ const Register = () => {
         placeholder="Nombre"
         onChangeText={(value) => onChange(value, 'name')}
         value={name}
+        style={styles.input}
+      />
+
+      <TextInput
+        placeholder="Apellido"
+        onChangeText={(value) => onChange(value, 'lastname')}
+        value={lastname}
+        style={styles.input}
+      />
+
+      <TextInput
+        placeholder="Username"
+        onChangeText={(value) => onChange(value, 'username')}
+        value={username}
         style={styles.input}
       />
 
@@ -78,12 +96,12 @@ const Register = () => {
         renderItem={({ item }) => <Text style={styles.skillItem}>{item}</Text>}
       />
 
-      <TouchableOpacity style={styles.registerButton} onPress={register}>
+      <TouchableOpacity style={styles.authButton} onPress={register}>
         <Text style={styles.buttonText}>Registrar</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.loginButton} onPress={goToLogin}>
-        <Text style={styles.loginButtonText}>¿Ya tienes una cuenta? Inicia Sesión</Text>
+      <TouchableOpacity style={styles.authButton} onPress={goToLogin}>
+        <Text style={styles.buttonText}>¿Ya tienes una cuenta? Inicia Sesión</Text>
       </TouchableOpacity>
     </View>
   );
@@ -94,71 +112,68 @@ const styles = StyleSheet.create({
     padding: 16,
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F4F4F4',
   },
   title: {
-    color: '#00FFFF',
+    color: '#333',
     fontSize: 24,
     marginBottom: 16,
-    textAlign: 'center',
-    fontFamily: 'Arial',
   },
   input: {
-    backgroundColor: 'rgba(204, 204, 204, 0.8)',
-    padding: 10,
-    marginBottom: 10,
+    width: '100%',
+    backgroundColor: 'rgba(204, 204, 204, 0.5)', // Cambiado a un tono de gris más claro
+    padding: 12,
+    marginBottom: 16,
     borderRadius: 5,
+    borderColor: '#DDDDDD',
+    borderWidth: 1,
   },
   label: {
     marginTop: 8,
     marginBottom: 4,
-    color: '#00FFFF',
+    color: '#333',
     fontSize: 16,
   },
   skillInputContainer: {
     flexDirection: 'row',
-    marginBottom: 8,
+    marginBottom: 16,
   },
   skillInput: {
-    backgroundColor: 'rgba(204, 204, 204, 0.8)',
     flex: 1,
-    padding: 10,
+    backgroundColor: 'rgba(204, 204, 204, 0.5)', // Cambiado a un tono de gris más claro
+    padding: 12,
     marginRight: 8,
     borderRadius: 5,
+    borderColor: '#DDDDDD',
+    borderWidth: 1,
   },
   addButton: {
-    backgroundColor: '#0000FF',
-    padding: 10,
+    backgroundColor: '#3498DB',
+    padding: 12,
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonText: {
-    color: 'white',
+    color: '#FFFFFF',
     fontSize: 16,
   },
   skillItem: {
     color: 'red',
   },
-  registerButton: {
-    backgroundColor: '#0000FF',
-    padding: 15,
+  authButton: {
+    backgroundColor: '#27AE60',
+    padding: 12,
     borderRadius: 5,
     alignItems: 'center',
-    marginBottom: 10,
-  },
-  loginButton: {
-    backgroundColor: '#00FFFF',
-    padding: 15,
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  loginButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
+    justifyContent: 'center',
+    marginTop: 10,
   },
 });
 
 export default Register;
+
+
+
 
 

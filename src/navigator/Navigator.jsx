@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from '../views/Login';
 import Register from '../views/Register';
 import {Home} from '../views/Home';
+import Post from '../views/Post';
+
 import { Authcontext } from '../context/Authcontext';
 const Stack= createNativeStackNavigator();
 export const Navigator= ()=>{
@@ -13,7 +15,7 @@ export const Navigator= ()=>{
 return (
   <Stack.Navigator
     screenOptions={{
-      headerShown: true,
+      headerShown: false,
     }}
   >
    
@@ -26,6 +28,7 @@ return (
     : (
       <>
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Post" component={Post} />
         
 
       </>
