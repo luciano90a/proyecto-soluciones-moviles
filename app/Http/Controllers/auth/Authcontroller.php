@@ -16,12 +16,15 @@ class Authcontroller extends Controller
      */
     public function login (LoginRequest $loginrequest){
     $user_data = $loginrequest->only('email','password');
+
     try{
         if ( !$token = JWTAuth::attempt($user_data) ){
             return response()->json([
-                "error"=> "error de datos ingresados"
+                "amigo"=> "error de datos ingresados"
             ]);
         }
+        $token_check=$token;
+
     }catch (\Exception $e){
         return response()->json(
             [
@@ -29,15 +32,23 @@ class Authcontroller extends Controller
             ],500
         );
     }
-    return response()->json(compact('token'));
+    $user=auth()->user();
+    return response()->json([
+        'token' => $token_check,
+        'user' => $user,
+    ]);
     }
      public function register(RegisterRequest $request){
 
         $user = User::create(
             [
             'name'=> $request->name,
+            'username'=> $request->username,
+            'lastname'=> $request->lastname,
             'email'=> $request->email,
             'password'=> $request->password,
+            'pdf_path'=>"",
+            'role'=> "usuario"
             ]
         );
         $token=JWTAuth::fromUser($user);
@@ -48,6 +59,27 @@ class Authcontroller extends Controller
                 'token'=>$token
             ]
             );
+     }
+     public function verifyToken(){
+        try{
+            $token = JWTAuth::getToken();
+            if(!$token){
+                return response()->json([
+                    'error_verirfy_token','token no valido'
+                ],400);
+            }
+            $user = JWTAuth::parseToken()->authenticate();
+
+            return response()->json([
+                'message'=>'token valido <)',
+                'user'=>$user,
+                'token'=>$token
+            ]);
+        }catch (\Exception $e){
+            return response()->json([
+                'error'=>$e->getMessage()
+            ]);
+        }
      }
     public function index()
     {

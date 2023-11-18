@@ -17,5 +17,7 @@ class Post extends Model
         'post_comments',
         'user_id',
     ];
-
+    public function users_post(){
+    return $this->belongsTo(User::class,'user_id');
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\auth\Authcontroller;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\Usercontroller;
 use Illuminate\Http\Request;
@@ -25,6 +26,9 @@ Route::post('register', [ Authcontroller::class, 'register']);
 Route::post('login', [ Authcontroller::class, 'login']);
 Route::middleware('jwt.verify')->group(function () {
     Route::post('post',[PostController::class,'store']);
+    Route::post('upload', [ImageController::class, 'upload_image']);
 });
 Route::get('users', [Usercontroller::class, 'index']);
+Route::get('token/validate', [AuthController::class, 'verifyToken']);
+
 

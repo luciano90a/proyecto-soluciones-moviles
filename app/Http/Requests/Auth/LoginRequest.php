@@ -28,9 +28,16 @@ class LoginRequest extends FormRequest
             'password'=>['required']
         ];
     }
+    public function messages(){
+        return [
+            'email.email'=>['ingresar bien el email'],
+            'email.required'=>['campo de email requerido'],
+            'password'=>['campo de pass requerido alv'],
+        ];
+    }
     protected function failedValidation(Validator $validator){
         throw new HttpResponseException( response()->json([
-            'error'=> $validator->errors(),
+            'error_response'=> $validator->errors(),
         ],422) );
     }
 }

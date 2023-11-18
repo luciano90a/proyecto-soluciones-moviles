@@ -27,6 +27,8 @@ class RegisterRequest extends FormRequest
         return [
             //reglas de validaciones
             'name'=>['required','min:5'],
+            'username'=>['required','min:5'],
+            'lastname'=>['required','min:5'],
             'email'=>['required','email'],
             'password'=>['required']
         ];
@@ -40,7 +42,7 @@ class RegisterRequest extends FormRequest
     }
     protected function failedValidation(Validator $validator){
         throw new HttpResponseException( response()->json([
-            'error'=> $validator->errors()->all(),
+            'error_register'=> $validator->errors()->all(),
         ],422) );
     }
 }
