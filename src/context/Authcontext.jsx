@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const Authcontext = createContext();
 const auth_init_state ={
-  status:'cheking',
+  status:'noauth',
   token:null,
   user:null,
   error_message:'error'
@@ -31,6 +31,7 @@ export const AuthProvider = ({ children }) => {
           }
         });
         await AsyncStorage.setItem('token',data.token);
+        
         console.log(data.token);
     }catch(error){
       console.log(error.response.data.error_register);
@@ -73,6 +74,7 @@ export const AuthProvider = ({ children }) => {
       )
       $token=data.token;
       await AsyncStorage.setItem('token',data.token);
+      
       console.log($token);
     }
    
@@ -84,7 +86,7 @@ export const AuthProvider = ({ children }) => {
 
   const check_token=async()=>{
     const token = await AsyncStorage.getItem('token');
-    const user = await AsyncStorage.getItem('user');
+   
 
     console.log('hola soy el checktoken');
     console.log(token);
@@ -102,7 +104,7 @@ export const AuthProvider = ({ children }) => {
       console.log('hola soy yo con tu token  ejejeje');
       token_user=data.token;
       console.log('tomaa::',token);
-      console.log('tomaa user::',token);
+      console.log('tomaa user::',data.user);
       if(token!=null){
         const settoken = await AsyncStorage.setItem('token',token);
       }
@@ -113,7 +115,7 @@ export const AuthProvider = ({ children }) => {
     dispatch({
       type: 'loggin',
       payload: {
-          token:data.token,
+          token:token,
           user:data.user,
           status:'auth'
       }

@@ -1,3 +1,4 @@
+
 import React, { useContext, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, Platform, Alert } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
@@ -8,8 +9,8 @@ import { Authcontext } from '../context/Authcontext';
 
 const Post = () => {
   const { user } = useContext(Authcontext);
-  const [image, setSelectedImage] = useState(null);
-  const [response, set_response] = useState('');
+  const { token } = useContext(Authcontext);
+  const [selectedImage, setSelectedImage] = useState(null);
   const navigation = useNavigation();
 
   const alerta = () => {
@@ -44,7 +45,7 @@ const Post = () => {
         console.log(response.errorCode);
       } else if (response.didCancel) {
         console.log('Cancelado por el usuario');
-      } else {
+      } else if (response.assets && response.assets.length > 0) {
         const path = response.assets[0].uri;
         setSelectedImage(path);
         console.log(path);
@@ -53,58 +54,67 @@ const Post = () => {
   };
 
   const uploadImage = async () => {
-    const uri = Platform.OS === 'android' ? path : image.replace('file://', '');
-    const form_data = new FormData();
-    form_data.append('image', {
-      uri,
-      name: response.assets[0].fileName,
-      type: response.assets[0].type,
-    });
-
     try {
-      const url_api = await Userapi.post('/api/upload', form_data, {
+      if (!selectedImage) {
+        throw new Error('Selecciona una imagen primero.');
+      }
+  
+      const uri = Platform.OS === 'android' ? selectedImage : selectedImage.replace('file://', '');
+      const form_data = new FormData();
+      form_data.append('image', {
+        uri,
+        name: selectedImage.split('/').pop(),
+        type: 'image/jpeg',
+      });
+  
+      const response = await Userapi.post('/api/upload', form_data, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
         },
       });
-      if (!response.data.isSuccess) {
-        console.log('image fail');
-        return;
+  
+      if (!response.data || !response.data.url) {
+        throw new Error('La respuesta del servidor no tiene la propiedad "url".');
       }
+  
       return response.data;
     } catch (error) {
-      console.log(error);
+      console.log('Error al subir la imagen:', error.message);
+      throw error;
     }
   };
 
   const form_submit = async () => {
-    let uri;
-    const contain_image = image.includes('file');
-    if (contain_image) {
-      const response = await uploadImage();
-      uri = response.data.uri;
-    } else {
-      uri = image;
+    const imageData = await uploadImage();
+
+    if (!imageData) {
+      console.log('Error al obtener datos de la imagen.');
+      return;
     }
+
+    const uri = imageData.url;
+
     const post = {
       post_title: 'mi post',
       post_description: 'mi des',
       post_image_dir: uri,
+      post_likes: 0,
+      post_comments: 0,
       user_id: user.id,
     };
-  };
-  try {
-    const {data}=Userapi.post('/api/post',post,{
-      headers:{
-        Authorization: `Bearer ${token}`,
-      }
-      
-    });
-    console.log(data);
-  }catch{
 
-  }
+    try {
+      const { data } = Userapi.post('/api/post', post, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -112,13 +122,15 @@ const Post = () => {
       <TouchableOpacity style={styles.button} onPress={choosePhoto}>
         <Text style={styles.buttonText}>Agregar Foto</Text>
       </TouchableOpacity>
-      {image && <Image source={{ uri: image }} style={styles.image} />}
+      {selectedImage && <Image source={{ uri: selectedImage }} style={styles.image} />}
 
       {/* Botón debajo de la imagen */}
       <TouchableOpacity style={styles.alertButton} onPress={alerta}>
         <Text style={styles.buttonText}> Cancelar </Text>
       </TouchableOpacity>
-
+      <TouchableOpacity style={styles.alertButton} onPress={form_submit}>
+        <Text style={styles.buttonText}> Post </Text>
+      </TouchableOpacity>
       {/* Barra de navegación inferior */}
       <View style={styles.bottomBar}>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
@@ -180,4 +192,7 @@ const styles = StyleSheet.create({
 });
 
 export default Post;
+
+
+
 
