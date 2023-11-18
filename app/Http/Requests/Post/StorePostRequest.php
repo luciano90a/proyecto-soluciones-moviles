@@ -30,6 +30,7 @@ class StorePostRequest extends FormRequest
             'post_image_dir'=>['required'],
             'post_likes'=>['required'],
             'post_comments'=>['required'],
+            'user_id'=>['required'],
         ];
     }
     protected function failedValidation(Validator $validator){
