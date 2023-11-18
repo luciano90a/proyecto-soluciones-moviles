@@ -96,8 +96,8 @@ const Post = () => {
     const uri = imageData.url;
 
     const post = {
-      post_title: 'mi post',
-      post_description: 'mi des',
+      post_title: 'mi post2000',
+      post_description: 'mi des2000',
       post_image_dir: uri,
       post_likes: 0,
       post_comments: 0,
@@ -110,7 +110,6 @@ const Post = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
