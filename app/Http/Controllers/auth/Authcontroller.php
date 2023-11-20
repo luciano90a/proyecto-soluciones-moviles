@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Post;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class Authcontroller extends Controller
@@ -33,10 +34,19 @@ class Authcontroller extends Controller
         );
     }
     $user=auth()->user();
-    return response()->json([
-        'token' => $token_check,
-        'user' => $user,
-    ]);
+    $users = User::all();
+    $post = Post::all();
+    if ($user->role=="admin"){
+        return response()->json([
+            'users_para_admin'=> $users,
+            'lospost_admin'=>$post,
+        ]);
+    }else{
+        return response()->json([
+            'token' => $token_check,
+            'user' => $user,
+        ]);
+    }
     }
      public function register(RegisterRequest $request){
 
