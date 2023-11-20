@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Post;
 
 class Usercontroller extends Controller
 {
@@ -14,9 +15,14 @@ class Usercontroller extends Controller
     {
         //
         $users = User::all();
-        return response()->json([
+        $post = Post::all();
+
+        return response()->json(
+            [
             'users'=>$users,
-        ]);
+            'postaaa'=>$post
+            ]
+    );
     }
 
     /**
