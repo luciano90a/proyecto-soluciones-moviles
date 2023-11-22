@@ -11,7 +11,7 @@ export const Profile = () => {
     //const
 
     return (
-      <View style={styles.container}>
+      <View style = {styles.container}>
         {/* Botón de Logout en la esquina superior izquierda */}
         <TouchableOpacity style={styles.logoutButton} onPress={log_out}>
           <Icon name="logout" size={25} color="white" style={styles.rotateLeft} />
@@ -19,8 +19,10 @@ export const Profile = () => {
 
         {/* Contenido de la pantalla Profile */}
         {/** Información de perfil */}
-        <View style={styles.container50}>
-          <Text>¡Hola!</Text>
+        <View style = {styles.container50}>
+          <Text>Name</Text>
+          <Text>Name</Text>
+          <Text>Username</Text>
         </View>
         {/** Posts realizados */}
         <View style={styles.container50}>
