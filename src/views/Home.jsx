@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -28,7 +29,7 @@ export const Home = () => {
         <TouchableOpacity onPress={() => navigation.navigate('Post')}>
           <Icon name="add-to-photos" size={25} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Perfil')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
           <Icon name="person" size={25} color="black" />
         </TouchableOpacity>
       </View>
@@ -73,5 +74,5 @@ export default Home;
 
 
 
-//Te estoy hablando por el chat de texto de discord 
+//Te estoy hablando por el chat de texto de discord
 

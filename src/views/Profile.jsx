@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -7,20 +8,25 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 export const Profile = () => {
     const { log_out } = useContext(Authcontext);
     const navigation = useNavigation();
-    //const 
-  
+    //const
+
     return (
       <View style={styles.container}>
         {/* Botón de Logout en la esquina superior izquierda */}
         <TouchableOpacity style={styles.logoutButton} onPress={log_out}>
           <Icon name="logout" size={25} color="white" style={styles.rotateLeft} />
         </TouchableOpacity>
-  
-        {/* Contenido de la pantalla Home */}
-        <View style={styles.content}>
+
+        {/* Contenido de la pantalla Profile */}
+        {/** Información de perfil */}
+        <View style={styles.container50}>
           <Text>¡Hola!</Text>
         </View>
-  
+        {/** Posts realizados */}
+        <View style={styles.container50}>
+          <Text>¡Hola!</Text>
+        </View>
+
         {/* Barra de navegación en la parte inferior */}
         <View style={styles.bottomBar}>
           <TouchableOpacity onPress={() => navigation.navigate('Home')}>
@@ -67,7 +73,21 @@ const styles = StyleSheet.create({
     rotateLeft: {
       transform: [{ rotate: '180deg' }],
     },
+    container50: {
+      width: '50%',
+      padding: '10px',
+    },
   });
-  
-  export default Home;
-  
+
+  export default Profile;
+
+/**
+ * {
+    "name": "nombre20",
+    "username":"ejemaaasssa",
+    "lastname":"ejemaaasssa",
+    "email": "email8@gmail.com",
+    "password": "elpass",
+    "role":"admin"
+}
+ */
