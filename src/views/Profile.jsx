@@ -27,9 +27,18 @@ export const Profile = () => {
               <Text>RealName</Text>
               <Text>Username</Text>
             </View>
+            {/** Status de la cuenta */}
+            <View style = {styles.containerStatus}>
+              <Text>100</Text>
+              <Text>Likes</Text>
+              <Text>200</Text>
+              <Text>Comment</Text>
+              <Text>300</Text>
+              <Text>Posts</Text>
+            </View>
             {/** Posts realizados */}
-            <View style={styles.container50}>
-              <Text>¡Hola!</Text>
+            <View style = {styles.containerPosts}>
+              <Text>Posts</Text>
             </View>
           </ScrollView>
 
@@ -90,6 +99,18 @@ const styles = StyleSheet.create({
       height: 200,
       borderRadius: 100,
       overflow: 'hidden',
+    },
+    containerStatus: {
+      flexDirection: 'row',
+      alignSelf: 'center',
+      marginTop: 32,
+    },
+    containerPosts: {
+      width: 100,
+      height: 100,
+      borderRadius: 12,
+      overflow: 'hidden',
+      marginHorizontal: 10,
     },
   });
 
