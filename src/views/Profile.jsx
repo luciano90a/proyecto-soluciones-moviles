@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Authcontext } from '../context/Authcontext';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export const Profile = () => {
     const { log_out } = useContext(Authcontext);
@@ -21,15 +22,16 @@ export const Profile = () => {
 
           {/* Contenido de la pantalla Profile */}
           {/** Información de perfil */}
-          <View style = {styles.container50}>
-            <Text>Name</Text>
-            <Text>Name</Text>
-            <Text>Username</Text>
-          </View>
-          {/** Posts realizados */}
-          <View style={styles.container50}>
-            <Text>¡Hola!</Text>
-          </View>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style = {styles.containerInfo}>
+              <Text>RealName</Text>
+              <Text>Username</Text>
+            </View>
+            {/** Posts realizados */}
+            <View style={styles.container50}>
+              <Text>¡Hola!</Text>
+            </View>
+          </ScrollView>
 
           {/* Barra de navegación en la parte inferior */}
           <View style={styles.bottomBar}>
@@ -78,9 +80,16 @@ const styles = StyleSheet.create({
     rotateLeft: {
       transform: [{ rotate: '180deg' }],
     },
-    container50: {
-      width: '50%',
-      padding: '10px',
+    containerInfo: {
+      alignSelf: 'center',
+      alignItems: 'center',
+      margin: 16,
+    },
+    profileImage: {
+      width: 200,
+      height: 200,
+      borderRadius: 100,
+      overflow: 'hidden',
     },
   });
 
