@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Authcontext } from '../context/Authcontext';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const Profile = () => {
     const { log_out } = useContext(Authcontext);
@@ -11,37 +12,39 @@ export const Profile = () => {
     //const
 
     return (
-      <View style = {styles.container}>
-        {/* Botón de Logout en la esquina superior izquierda */}
-        <TouchableOpacity style={styles.logoutButton} onPress={log_out}>
-          <Icon name="logout" size={25} color="white" style={styles.rotateLeft} />
-        </TouchableOpacity>
+      <SafeAreaView>
+        <View style = {styles.container}>
+          {/* Botón de Logout en la esquina superior izquierda */}
+          <TouchableOpacity style={styles.logoutButton} onPress={log_out}>
+            <Icon name="logout" size={25} color="white" style={styles.rotateLeft} />
+          </TouchableOpacity>
 
-        {/* Contenido de la pantalla Profile */}
-        {/** Información de perfil */}
-        <View style = {styles.container50}>
-          <Text>Name</Text>
-          <Text>Name</Text>
-          <Text>Username</Text>
-        </View>
-        {/** Posts realizados */}
-        <View style={styles.container50}>
-          <Text>¡Hola!</Text>
-        </View>
+          {/* Contenido de la pantalla Profile */}
+          {/** Información de perfil */}
+          <View style = {styles.container50}>
+            <Text>Name</Text>
+            <Text>Name</Text>
+            <Text>Username</Text>
+          </View>
+          {/** Posts realizados */}
+          <View style={styles.container50}>
+            <Text>¡Hola!</Text>
+          </View>
 
-        {/* Barra de navegación en la parte inferior */}
-        <View style={styles.bottomBar}>
-          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-            <Icon name="add-to-home-screen" size={25} color="black"  />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Post')}>
-            <Icon name="add-to-photos" size={25} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Perfil')}>
-            <Icon name="person" size={25} color="black" />
-          </TouchableOpacity>
+          {/* Barra de navegación en la parte inferior */}
+          <View style={styles.bottomBar}>
+            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+              <Icon name="add-to-home-screen" size={25} color="black"  />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Post')}>
+              <Icon name="add-to-photos" size={25} color="black" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Perfil')}>
+              <Icon name="person" size={25} color="black" />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </SafeAreaView>
     );
   };
 
