@@ -38,8 +38,8 @@ class Authcontroller extends Controller
     $post = Post::all();
     if ($user->role=="admin"){
         return response()->json([
-            'users_para_admin'=> $users,
-            'lospost_admin'=>$post,
+            'users'=> $users,
+            'posts'=>$post,
         ]);
     }else{
         return response()->json([

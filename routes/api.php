@@ -27,7 +27,9 @@ Route::post('login', [ Authcontroller::class, 'login']);
 Route::middleware('jwt.verify')->group(function () {
     Route::post('post',[PostController::class,'store']);
     Route::post('upload', [ImageController::class, 'upload_image']);
+
 });
+Route::get('viewpost',[PostController::class,'index']);
 Route::get('users', [Usercontroller::class, 'index']);
 Route::get('token/validate', [AuthController::class, 'verifyToken']);
 
