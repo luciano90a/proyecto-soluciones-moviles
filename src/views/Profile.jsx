@@ -28,14 +28,16 @@ export const Profile = () => {
               <Text>Username</Text>
             </View>
             {/** Status de la cuenta */}
-            <View style = {styles.containerStatus}>
-              <Text>100</Text>
-              <Text>Likes</Text>
-              <Text>200</Text>
-              <Text>Comment</Text>
-              <Text>300</Text>
-              <Text>Posts</Text>
-            </View>
+            <ScrollView horizontal={true}>
+              <View style = {styles.containerStatus}>
+                <Text>100</Text>
+                <Text>Likes</Text>
+                <Text>200</Text>
+                <Text>Comment</Text>
+                <Text>300</Text>
+                <Text>Posts</Text>
+              </View>
+            </ScrollView>
             {/** Posts realizados */}
             <View style = {styles.containerPosts}>
               <Text>Posts</Text>
