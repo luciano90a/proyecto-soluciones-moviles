@@ -17,12 +17,9 @@ class PostController extends Controller
     public function index()
     {
         //metodo para retornar los post
-        return response()->json(
-            [
-                'post'=>Post::all(),
-            ],
-            200
-        );
+        $posts = Post::orderBy('created_at', 'desc')->get();
+
+        return response()->json($posts, 200);
 
     }
 
