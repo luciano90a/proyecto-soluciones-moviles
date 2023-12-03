@@ -1,4 +1,4 @@
-import React, { createContext,useReducer,useEffect } from 'react';
+import React, { createContext,useReducer,useEffect ,useState} from 'react';
 import { Authreducer } from './Authreducer';
 import Userapi from '../api/Userapi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -13,8 +13,12 @@ const auth_init_state ={
 export const AuthProvider = ({ children }) => {
   
   const [state,dispatch]=useReducer(Authreducer, auth_init_state);
+  const [posts, setPosts] = useState([]);
   useEffect(()=> {
     check_token();
+}, []);
+useEffect(() => {
+  getPosts();
 }, []);
   
   const sign_up =async({name,username,lastname,email,password})=>{
@@ -52,6 +56,20 @@ export const AuthProvider = ({ children }) => {
     
     
   };
+  const getPosts = async () => {
+    const token = await AsyncStorage.getItem('token');
+    try {
+        const { data } = await Userapi.get('api/viewpost', {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        });
+
+        setPosts(data);
+    } catch (error) {
+        console.log(error.response.data);
+    }
+}
 
   const sign_in=async({email , password}) => {
   console.log(email,password);
@@ -129,6 +147,8 @@ export const AuthProvider = ({ children }) => {
     <Authcontext.Provider
       value={{
         name: 'name',
+        getPosts,
+        posts,
         sign_in,
         sign_up,
         log_out,

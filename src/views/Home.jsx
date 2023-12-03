@@ -1,32 +1,24 @@
-import React, { useContext , useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react'
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, StatusBar, RefreshControl } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import { Authcontext } from '../context/Authcontext';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Userapi from '../api/Userapi';
 import { ScrollView } from 'react-native';
+import Post from '../Components/Post'
 
 
 export const Home = () => {
-  const { token, log_out  } = useContext(Authcontext);
+  const { token, log_out,posts,getPosts } = useContext(Authcontext);
+  const [refreshing, setRefreshing] = useState(false);
   const navigation = useNavigation();
-  useEffect(()=>{
-     get_post()
-  },[]);
   console.log('tu token es: '+token);
-  const get_post=async()=>{
-    try{
-      const response_post = await Userapi.get('/api/viewpost',
-      {
-        headers:{
-          Authorization:'Bearer'+token
-        }
-      });
-      console.log('los post son: '+JSON.stringify(response_post.data.posts ));
-    }catch(error){
-
-    }
-  }
+  const onRefresh = async () => {
+    setRefreshing(true);
+    // Realizar la solicitud para obtener nuevos datos
+    await getPosts();
+    setRefreshing(false);
+};
   return (
      
     <View style={styles.container}>
@@ -36,9 +28,18 @@ export const Home = () => {
         <Icon name="logout" size={25} color="white" style={styles.rotateLeft} />
       </TouchableOpacity>
       {/* Contenido de la pantalla Home */}
-      <View style={styles.content}>
-        <Text>¡Hola!</Text>
-      </View>
+      <FlatList
+                showsVerticalScrollIndicator={false}
+                scrollEnabled
+                data={posts}
+                renderItem={({ item }) => <Post post={item} />}
+                keyExtractor={item => item.post_id.toString()}
+                style={styles.flatList}
+                contentContainerStyle={{ paddingBottom: 80 }}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
+            />
       {/* Barra de navegación en la parte inferior */}
       <View style={styles.bottomBar}>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
@@ -56,6 +57,15 @@ export const Home = () => {
 };
 
 const styles = StyleSheet.create({
+  flatList: {
+    flexGrow: 1, // Para asegurar que la FlatList se expanda según el contenido
+},
+item: {
+  backgroundColor: '#f9c2ff',
+  padding: 20,
+  marginVertical: 8,
+  marginHorizontal: 16,
+},
   container: {
     flex: 1,
     backgroundColor: 'white',
@@ -90,6 +100,7 @@ const styles = StyleSheet.create({
 });
 
 export default Home;
+
 
 
 
