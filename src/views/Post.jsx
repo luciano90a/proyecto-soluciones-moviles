@@ -130,6 +130,7 @@ const Post = () => {
       <TouchableOpacity style={styles.alertButton} onPress={form_submit}>
         <Text style={styles.buttonText}> Post </Text>
       </TouchableOpacity>
+      
       {/* Barra de navegación inferior */}
       <View style={styles.bottomBar}>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
