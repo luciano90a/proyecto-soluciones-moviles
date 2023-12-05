@@ -27,19 +27,27 @@ export const Home = () => {
        <TouchableOpacity style={styles.logoutButton} onPress={log_out}>
         <Icon name="logout" size={25} color="white" style={styles.rotateLeft} />
       </TouchableOpacity>
+      <TouchableOpacity style={styles.refreshButton} onPress={onRefresh}>
+        <Icon name="refresh" size={25} color="white" />
+      </TouchableOpacity>
       {/* Contenido de la pantalla Home */}
-      <FlatList
-                showsVerticalScrollIndicator={false}
-                scrollEnabled
-                data={posts}
-                renderItem={({ item }) => <Post post={item} />}
-                keyExtractor={item => item.post_id.toString()}
-                style={styles.flatList}
-                contentContainerStyle={{ paddingBottom: 80 }}
-                refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                }
-            />
+
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={styles.scrollView}
+        contentContainerStyle={{ paddingBottom: 30 }}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        decelerationRate="normal"
+        endFillColor ="red"
+        
+        
+      >
+        {posts.map(item => (
+          <Post key={item.post_id} post={item} />
+        ))}
+      </ScrollView>
+
+
       {/* Barra de navegación en la parte inferior */}
       <View style={styles.bottomBar}>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
@@ -60,6 +68,11 @@ const styles = StyleSheet.create({
   flatList: {
     flexGrow: 1, // Para asegurar que la FlatList se expanda según el contenido
 },
+scrollView: {
+  backgroundColor:"white",
+  width:'80%',
+  flex:1
+},
 item: {
   backgroundColor: '#f9c2ff',
   padding: 20,
@@ -68,17 +81,18 @@ item: {
 },
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: 'darkcyan',
     alignContent:'center',
     alignItems:'center'
   },
   logoutButton: {
     position: 'absolute',
     top: 10,
-    left: 10,
+    left: 0,
     backgroundColor: 'orange',
     padding: 10,
     borderRadius: 5,
+    
   },
   content: {
     flex: 1,
@@ -96,6 +110,14 @@ item: {
   },
   rotateLeft: {
     transform: [{ rotate: '180deg' }],
+  },
+  refreshButton: {
+    position: 'absolute',
+    top: 10,
+    right: 0,
+    backgroundColor: 'orange', // Puedes ajustar el color según tus preferencias
+    padding: 10,
+    borderRadius: 5,
   },
 });
 

@@ -7,7 +7,7 @@ const Post = ({ post }) => {
         <View style={styles.postContainer}>
             <View style={styles.postInfo}>
                 <View style={styles.postHeader}>
-                    <Text style={styles.username}>{post.title}</Text>
+                    <Text style={styles.name}>{post.post_title}</Text>
                 </View>
             </View>
             <Image source={{ uri: post.post_image_dir }} style={styles.postImage} />
@@ -15,8 +15,8 @@ const Post = ({ post }) => {
                 <Icon name="person" color='black'size={30} />
                 <Icon name="person" color='black' size={30} />
             </View>
-            <Text style={styles.likes}>{post.likes} Me gusta</Text>
-            <Text style={styles.likes}>Ver los {post.comments} comentarios</Text>
+            <Text style={styles.likes}>{post.post_likes} Me gusta</Text>
+            <Text style={styles.likes}>{post.post_comments} comentarios</Text>
         </View>
     )
 }
@@ -24,25 +24,43 @@ const Post = ({ post }) => {
 const styles = StyleSheet.create({
     postContainer: {
         marginBottom: 16,
+        backgroundColor:"green",
+        alignItems:'center',
+        justifyContent:'center',
+        alignContent:'center',
+        flex:1
     },
     postImage: {
         width: '100%',
         height: 300,
         resizeMode: 'cover',
+        flex:1
     },
     postInfo: {
-        padding: 12,
+        padding: 15,
+        justifyContent:'center',
+        alignContent:'center',
+        alignItems:'center'
     },
     postHeader: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
+        alignContent:'center',
+        width:'80%',
+        
     },
-    username: {
+    name: {
         color: 'black',
         fontSize: 16,
         fontWeight: 'bold',
-        marginRight: 8,
+        backgroundColor:"cyan",
+        borderRadius:20,
+        justifyContent:'center',
+        width:'110%',
+        paddingLeft:'41%',
+        alignContent:'center',
+        textAlign:'auto'
     },
     postFooter: {
         flexDirection: 'row',
@@ -57,6 +75,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 4,
         marginLeft: 12,
+        backgroundColor:"cyan",
+        borderRadius:50,
+        width:'50%'
     },
     comments: {
         color: '#888',
