@@ -58,7 +58,8 @@ class Authcontroller extends Controller
             'email'=> $request->email,
             'password'=> $request->password,
             'pdf_path'=>"",
-            'role'=> "usuario"
+            'role'=> "usuario",
+            'status'=>"on",
             ]
         );
         $token=JWTAuth::fromUser($user);

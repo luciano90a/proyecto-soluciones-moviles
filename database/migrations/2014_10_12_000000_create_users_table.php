@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('pdf_path');
             $table->string('role');
+            $table->string('status');
             $table->rememberToken();
             $table->timestamps();
         });
