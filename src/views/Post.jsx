@@ -1,4 +1,3 @@
-
 import React, { useContext, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, Platform, Alert } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
@@ -6,11 +5,14 @@ import Userapi from '../api/Userapi';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Authcontext } from '../context/Authcontext';
+import { Button, TextInput as PaperTextInput } from 'react-native-paper';
 
 const Post = () => {
   const { user } = useContext(Authcontext);
   const { token } = useContext(Authcontext);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [postTitle, setPostTitle] = useState('');
+  const [postDescription, setPostDescription] = useState('');
   const navigation = useNavigation();
 
   const alerta = () => {
@@ -96,8 +98,8 @@ const Post = () => {
     const uri = imageData.url;
 
     const post = {
-      post_title: 'mi post2000',
-      post_description: 'mi des2000',
+      post_title: postTitle,
+      post_description: postDescription,
       post_image_dir: uri,
       post_likes: 0,
       post_comments: 0,
@@ -122,6 +124,19 @@ const Post = () => {
         <Text style={styles.buttonText}>Agregar Foto</Text>
       </TouchableOpacity>
       {selectedImage && <Image source={{ uri: selectedImage }} style={styles.image} />}
+      {/* Entradas de texto para el título y la descripción */}
+      <PaperTextInput
+        label="Título de la Publicación"
+        value={postTitle}
+        onChangeText={text => setPostTitle(text)}
+        style={styles.input}
+      />
+      <PaperTextInput
+        label="Descripción de la Publicación"
+        value={postDescription}
+        onChangeText={text => setPostDescription(text)}
+        style={styles.input}
+      />
 
       {/* Botón debajo de la imagen */}
       <TouchableOpacity style={styles.alertButton} onPress={alerta}>
@@ -148,6 +163,10 @@ const Post = () => {
 };
 
 const styles = StyleSheet.create({
+  input: {
+    marginVertical: 10,
+    width: '80%',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -192,6 +211,7 @@ const styles = StyleSheet.create({
 });
 
 export default Post;
+
 
 
 

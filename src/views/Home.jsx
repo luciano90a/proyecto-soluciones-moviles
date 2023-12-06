@@ -13,12 +13,14 @@ export const Home = () => {
   const [refreshing, setRefreshing] = useState(false);
   const navigation = useNavigation();
   console.log('tu token es: '+token);
+  let cant=posts.length
   const onRefresh = async () => {
     setRefreshing(true);
     // Realizar la solicitud para obtener nuevos datos
     await getPosts();
     setRefreshing(false);
 };
+
   return (
      
     <View style={styles.container}>
@@ -31,7 +33,7 @@ export const Home = () => {
         <Icon name="refresh" size={25} color="white" />
       </TouchableOpacity>
       {/* Contenido de la pantalla Home */}
-
+      
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.scrollView}
@@ -42,6 +44,7 @@ export const Home = () => {
         
         
       >
+        
         {posts.map(item => (
           <Post key={item.post_id} post={item} />
         ))}
