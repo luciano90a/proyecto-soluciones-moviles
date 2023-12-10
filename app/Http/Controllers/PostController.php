@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Like;
 use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\User;
@@ -84,6 +85,20 @@ public function dislikePost(Post $post)
         return response()->json(['message' => 'No has dado like a este post'], 422);
     } catch (\Exception $e) {
         return response()->json(['error' => 'Error al gestionar el dislike'], 500);
+    }
+}
+public function getLikedPosts()
+{
+    try {
+        // Obtén el usuario autenticado
+        $user = auth()->user();
+
+        // Obtén los posts que le gustan al usuario
+        $likedPosts = $user->likedPosts;
+
+        return response()->json(['likedPosts' => $likedPosts], 200);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Error al obtener los posts que le gustan al usuario'], 500);
     }
 }
 
