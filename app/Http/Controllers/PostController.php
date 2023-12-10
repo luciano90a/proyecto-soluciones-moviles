@@ -94,13 +94,14 @@ public function getLikedPosts()
         $user = auth()->user();
 
         // Obtén los posts que le gustan al usuario
-        $likedPosts = $user->likedPosts;
+        $likedPosts = $user->likedPosts()->pluck('id')->toArray();
 
         return response()->json(['likedPosts' => $likedPosts], 200);
     } catch (\Exception $e) {
         return response()->json(['error' => 'Error al obtener los posts que le gustan al usuario'], 500);
     }
 }
+
 
 
 
