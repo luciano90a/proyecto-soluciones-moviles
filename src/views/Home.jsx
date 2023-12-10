@@ -33,20 +33,15 @@ export const Home = () => {
         <Icon name="refresh" size={25} color="white" />
       </TouchableOpacity>
       {/* Contenido de la pantalla Home */}
-      
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.scrollView}
         contentContainerStyle={{ paddingBottom: 30 }}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-        decelerationRate="normal"
         endFillColor ="red"
-        
-        
       >
-        
         {posts.map(item => (
-          <Post key={item.post_id} post={item} />
+          <Post key={item.id} post={item} />
         ))}
       </ScrollView>
 
@@ -69,7 +64,7 @@ export const Home = () => {
 
 const styles = StyleSheet.create({
   flatList: {
-    flexGrow: 1, // Para asegurar que la FlatList se expanda según el contenido
+    flexGrow: 1, //  FlatList se expanda según el contenido
 },
 scrollView: {
   backgroundColor:"white",

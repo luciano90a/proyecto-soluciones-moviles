@@ -1,6 +1,7 @@
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
 
 const Post = ({ post }) => {
     return (
@@ -12,8 +13,12 @@ const Post = ({ post }) => {
             </View>
             <Image source={{ uri: post.post_image_dir }} style={styles.postImage} />
             <View style={styles.postFooter}>
-                <Icon name="person" color='black'size={30} />
-                <Icon name="person" color='black' size={30} />
+                <TouchableOpacity>
+                    <Icon name="check" color='black'size={30} />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                <Icon name="comment" color='black' size={30} />  
+                </TouchableOpacity>
             </View>
             <Text style={styles.likes}>{post.post_likes} Me gusta</Text>
             <Text style={styles.likes}>{post.post_comments} comentarios</Text>
