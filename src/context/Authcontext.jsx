@@ -42,6 +42,8 @@ useEffect(() => {
     }
   };
 
+  
+
   const log_out = async()=>{
     await AsyncStorage.removeItem('token');
 
@@ -70,6 +72,19 @@ useEffect(() => {
         console.log(error.response.data);
     }
 }
+const like_post = async (postId) => {
+  const token = await AsyncStorage.getItem('token');
+  console.log(postId);
+  try {
+    const response = await Userapi.post(`/api/posts/${postId}/like`,null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error) {
+    console.error('Error al realizar la petición:', error.message);
+  }
+};
 
   const sign_in=async({email , password}) => {
   console.log(email,password);
@@ -151,6 +166,7 @@ useEffect(() => {
         posts,
         sign_in,
         sign_up,
+        like_post,
         log_out,
         ...state
       }}

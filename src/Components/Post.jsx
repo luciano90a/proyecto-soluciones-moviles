@@ -1,9 +1,14 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React,{ useContext } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Authcontext } from '../context/Authcontext';
 
 
 const Post = ({ post }) => {
+    const { like_post, likedPosts } = useContext(Authcontext);
+    const got_like=async()=>{
+        await like_post(post.id);
+    }
     return (
         <View style={styles.postContainer}>
             <View style={styles.postInfo}>
@@ -13,7 +18,7 @@ const Post = ({ post }) => {
             </View>
             <Image source={{ uri: post.post_image_dir }} style={styles.postImage} />
             <View style={styles.postFooter}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={got_like}>
                     <Icon name="check" color='black'size={30} />
                 </TouchableOpacity>
                 <TouchableOpacity>
