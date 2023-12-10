@@ -48,6 +48,25 @@ class PostController extends Controller
         }
 
     }
+    public function likePost(Post $post)
+    {
+        try {
+            // Verifica si el usuario ya ha dado like a este post
+            $user = auth()->user();
+            if ($post->likes()->where('user_id', $user->id)->exists()) {
+                return response()->json(['message' => 'Ya has dado like a este post'], 422); // 422 Unprocessable Entity
+            }
+
+            // Incrementa el número de likes y crea un registro en la tabla de likes
+            $post->increment('post_likes');
+            $post->likes()->create(['user_id' => $user->id]);
+
+            return response()->json(['message' => 'Like incrementado con éxito'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al incrementar el like'], 500);
+        }
+    }
+
 
     /**
      * Display the specified resource.

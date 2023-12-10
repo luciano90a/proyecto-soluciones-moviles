@@ -9,7 +9,6 @@ class Post extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'post_id',
         'post_title',
         'post_description',
         'post_image_dir',
@@ -20,4 +19,9 @@ class Post extends Model
     public function users_post(){
     return $this->belongsTo(User::class,'user_id');
     }
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
 }
