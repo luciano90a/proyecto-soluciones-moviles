@@ -1,13 +1,27 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import React,{ useContext } from 'react'
+import React,{ useContext,useState,useEffect } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Authcontext } from '../context/Authcontext';
 
 
 const Post = ({ post }) => {
-    const { like_post, likedPosts } = useContext(Authcontext);
+   // const { like_post, likedPosts,getLikedPosts  } = useContext(Authcontext);
+    const { like_post, getLikedPosts,likedPosts  } = useContext(Authcontext);
+    const [isLiked, setIsLiked] = useState(false);
+    const [showLikedMessage, setShowLikedMessage] = useState(false);
+    useEffect(() => {
+        // Llamada a la función que obtiene los posts liked
+        getLikedPosts();
+      }, []);
+      useEffect(() => {
+        setIsLiked(likedPosts && likedPosts.some(likedPost => likedPost.id === post.id));
+        setShowLikedMessage(false);
+    }, [likedPosts]);
     const got_like=async()=>{
         await like_post(post.id);
+        setIsLiked(!isLiked);
+        setShowLikedMessage(true);
+        
     }
     return (
         <View style={styles.postContainer}>
@@ -18,13 +32,15 @@ const Post = ({ post }) => {
             </View>
             <Image source={{ uri: post.post_image_dir }} style={styles.postImage} />
             <View style={styles.postFooter}>
-                <TouchableOpacity onPress={got_like}>
-                    <Icon name="check" color='black'size={30} />
-                </TouchableOpacity>
+            <TouchableOpacity onPress={got_like}>
+                <Icon name={isLiked ? 'check-circle' : 'check-circle-outline'} color="black" size={30} />
+             </TouchableOpacity>
                 <TouchableOpacity>
                 <Icon name="comment" color='black' size={30} />  
                 </TouchableOpacity>
             </View>
+            {showLikedMessage && <Text style={styles.likeMessage}>¡Ya le has dado like!</Text>}
+            {!showLikedMessage && !isLiked && <Text style={styles.notLikedMessage}>Aún sin dar like</Text>}
             <Text style={styles.likes}>{post.post_likes} Me gusta</Text>
             <Text style={styles.likes}>{post.post_comments} comentarios</Text>
         </View>
