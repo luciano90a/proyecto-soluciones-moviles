@@ -29,6 +29,8 @@ Route::middleware('jwt.verify')->group(function () {
     Route::post('upload', [ImageController::class, 'upload_image']);
     Route::get('viewpost',[PostController::class,'index']);
     Route::post('posts/{post}/like', [PostController::class, 'likePost']);
+    Route::post('posts/{post}/dislike', [PostController::class, 'dislikePost']);
+
 });
 
 Route::get('users', [Usercontroller::class, 'index']);

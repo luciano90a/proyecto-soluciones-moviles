@@ -68,6 +68,28 @@ class PostController extends Controller
     }
 
 
+public function dislikePost(Post $post)
+{
+    try {
+        // Verifica si el usuario ya ha dado like a este post
+        $user = auth()->user();
+        $existingLike = $post->likes()->where('user_id', $user->id)->first();
+
+        if ($existingLike) {
+            // Si ya existe un like, disminuye el número de likes y elimina el like existente
+            $post->decrement('post_likes');
+            $existingLike->delete();
+            return response()->json(['message' => 'Dislike realizado con éxito'], 200);
+        }
+        return response()->json(['message' => 'No has dado like a este post'], 422);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Error al gestionar el dislike'], 500);
+    }
+}
+
+
+
+
     /**
      * Display the specified resource.
      */
