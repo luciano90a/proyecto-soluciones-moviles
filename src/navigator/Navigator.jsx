@@ -5,6 +5,7 @@ import Login from '../views/Login';
 import Register from '../views/Register';
 import {Home} from '../views/Home';
 import Post from '../views/Post';
+import Profile from '../views/Profile';
 
 import { Authcontext } from '../context/Authcontext';
 const Stack= createNativeStackNavigator();
@@ -29,6 +30,7 @@ return (
       <>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Post" component={Post} />
+        <Stack.Screen name="Profile" component={Profile} />
         
 
       </>

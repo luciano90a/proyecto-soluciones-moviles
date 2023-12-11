@@ -26,7 +26,7 @@ export const Home = () => {
     // Realizar la solicitud para obtener nuevos datos
     await getPosts();
     setRefreshing(false);
-};
+  };
 
   return (
      
