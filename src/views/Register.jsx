@@ -1,15 +1,22 @@
-import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
-import { Authcontext } from '../context/Authcontext';
-import { useForm } from '../hooks/Form';
-import { useNavigation } from '@react-navigation/native';
+import React, {useContext, useState} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+} from 'react-native';
+import {Authcontext} from '../context/Authcontext';
+import {useForm} from '../hooks/Form';
+import {useNavigation} from '@react-navigation/native';
 
 const Register = () => {
   var skill_user = [];
   const [skill, setSkill] = useState('');
   const [skills, setSkills] = useState([]);
-  const { sign_up } = useContext(Authcontext);
-  const { name, username, lastname, email, password, onChange } = useForm({
+  const {sign_up} = useContext(Authcontext);
+  const {name, username, lastname, email, password, onChange} = useForm({
     name: '',
     username: '',
     lastname: '',
@@ -20,7 +27,7 @@ const Register = () => {
   const navigation = useNavigation();
 
   const register = () => {
-    sign_up({ name, username, lastname, email, password });
+    sign_up({name, username, lastname, email, password});
   };
 
   const addSkill = () => {
@@ -41,28 +48,28 @@ const Register = () => {
 
       <TextInput
         placeholder="Nombre"
-        onChangeText={(value) => onChange(value, 'name')}
+        onChangeText={value => onChange(value, 'name')}
         value={name}
         style={styles.input}
       />
 
       <TextInput
         placeholder="Apellido"
-        onChangeText={(value) => onChange(value, 'lastname')}
+        onChangeText={value => onChange(value, 'lastname')}
         value={lastname}
         style={styles.input}
       />
 
       <TextInput
         placeholder="Username"
-        onChangeText={(value) => onChange(value, 'username')}
+        onChangeText={value => onChange(value, 'username')}
         value={username}
         style={styles.input}
       />
 
       <TextInput
         placeholder="Correo Electrónico"
-        onChangeText={(value) => onChange(value, 'email')}
+        onChangeText={value => onChange(value, 'email')}
         value={email}
         keyboardType="email-address"
         style={styles.input}
@@ -70,7 +77,7 @@ const Register = () => {
 
       <TextInput
         placeholder="Contraseña"
-        onChangeText={(value) => onChange(value, 'password')}
+        onChangeText={value => onChange(value, 'password')}
         value={password}
         secureTextEntry
         style={styles.input}
@@ -82,7 +89,7 @@ const Register = () => {
         <TextInput
           placeholder="Habilidad"
           value={skill}
-          onChangeText={(text) => setSkill(text)}
+          onChangeText={text => setSkill(text)}
           style={styles.skillInput}
         />
         <TouchableOpacity style={styles.addButton} onPress={addSkill}>
@@ -93,7 +100,7 @@ const Register = () => {
       <FlatList
         data={skills}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => <Text style={styles.skillItem}>{item}</Text>}
+        renderItem={({item}) => <Text style={styles.skillItem}>{item}</Text>}
       />
 
       <TouchableOpacity style={styles.authButton} onPress={register}>
@@ -101,7 +108,9 @@ const Register = () => {
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.authButton} onPress={goToLogin}>
-        <Text style={styles.buttonText}>¿Ya tienes una cuenta? Inicia Sesión</Text>
+        <Text style={styles.buttonText}>
+          ¿Ya tienes una cuenta? Inicia Sesión
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -172,8 +181,3 @@ const styles = StyleSheet.create({
 });
 
 export default Register;
-
-
-
-
-
