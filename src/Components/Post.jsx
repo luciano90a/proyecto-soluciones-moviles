@@ -60,6 +60,31 @@ const Post = ({ post }) => {
         await AsyncStorage.setItem(`likedPost_${user.id}_${post.id}`, 'true');
         await onRefresh();
     }
+    
+    const sendComment = async () => {
+        try {
+          // Lógica para enviar el comentario al servidor
+          const token = await AsyncStorage.getItem('token');
+          console.log(commentText);
+          const response = await Userapi.post(`api/posts/${post.id}/comment`, {
+            comentario:commentText,
+          }, {
+            headers: {
+              Authorization: 'Bearer ' + token,
+            },
+          });
+      
+          // Si es necesario, maneja la respuesta del servidor aquí
+      
+          // Actualiza la lista de comentarios después de enviar el comentario
+          // Puedes llamar a la función que obtiene los comentarios para refrescar la lista
+          // Ejemplo:
+          //await fetchComments(postId);
+        } catch (error) {
+          console.error('Error al enviar comentario:', error.message);
+        }
+      };
+
     const handleDislike = async () => {
         try {
           await dislike_post(post.id);
@@ -78,7 +103,8 @@ const Post = ({ post }) => {
       const handleCommentSubmit = async () => {
         // Lógica para enviar el comentario al servidor
         // ...
-        fetchComments();
+        //await sendComment(post.id, commentText);
+        await fetchComments();
         // Cierra el modal después de enviar el comentario
         setCommentModalVisible(false);
       };
@@ -119,7 +145,7 @@ const Post = ({ post }) => {
             value={commentText}
             onChangeText={(text) => setCommentText(text)}
           />
-          <TouchableOpacity onPress={handleCommentSubmit} style={styles.commentButton}>
+          <TouchableOpacity onPress={sendComment} style={styles.commentButton}>
             <Text style={styles.commentButtonText}>Enviar Comentario</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={toggleCommentModal} style={styles.closeButton}>
