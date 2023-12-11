@@ -9,10 +9,17 @@ import Post from '../Components/Post'
 
 
 export const Home = () => {
-  const { token, log_out,posts,getPosts } = useContext(Authcontext);
+  const { token, log_out,getPosts } = useContext(Authcontext);
+  const { posts } = useContext(Authcontext);
+  const { check_token } = useContext(Authcontext);
   const [refreshing, setRefreshing] = useState(false);
   const navigation = useNavigation();
   console.log('tu token es: '+token);
+  useEffect(() => {
+    // Llama a check_token al montar el componente
+    check_token();
+    getPosts();
+  }, []);
   let cant=posts.length
   const onRefresh = async () => {
     setRefreshing(true);

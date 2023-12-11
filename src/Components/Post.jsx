@@ -2,11 +2,15 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import React,{ useContext,useState,useEffect } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Authcontext } from '../context/Authcontext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 
 
 const Post = ({ post }) => {
+
    // const { like_post, likedPosts,getLikedPosts  } = useContext(Authcontext);
-    const { like_post, getLikedPosts,likedPosts  } = useContext(Authcontext);
+    const { like_post, getLikedPosts,likedPosts,user  } = useContext(Authcontext);
     const [isLiked, setIsLiked] = useState(false);
     const [showLikedMessage, setShowLikedMessage] = useState(false);
     useEffect(() => {
@@ -14,13 +18,19 @@ const Post = ({ post }) => {
         getLikedPosts();
       }, []);
       useEffect(() => {
-        setIsLiked(likedPosts && likedPosts.some(likedPost => likedPost.id === post.id));
-        setShowLikedMessage(false);
-    }, [likedPosts]);
+        const loadLikedState = async () => {
+          const liked = await AsyncStorage.getItem(`likedPost_${user.id}_${post.id}`);
+          setIsLiked(liked === 'true');
+          setShowLikedMessage(liked === 'true');
+        };
+      
+        loadLikedState();
+      }, [post.id, likedPosts]);
     const got_like=async()=>{
         await like_post(post.id);
         setIsLiked(!isLiked);
         setShowLikedMessage(true);
+        await AsyncStorage.setItem(`likedPost_${user.id}_${post.id}`, 'true');
         
     }
     return (

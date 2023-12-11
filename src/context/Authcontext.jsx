@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
   const [state,dispatch]=useReducer(Authreducer, auth_init_state);
   const [posts, setPosts] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
+  const [user, setuser] = useState([]);
   useEffect(()=> {
     check_token();
 }, []);
@@ -52,6 +53,7 @@ useEffect(() => {
         }
       });
       setLikedPosts(data.likedPosts);
+      
     } catch (error) {
       console.log('Error al obtener los posts liked:', error);
     }
@@ -81,7 +83,6 @@ useEffect(() => {
                 'Authorization': 'Bearer ' + token
             }
         });
-
         setPosts(data);
     } catch (error) {
         console.log(error.response.data);
@@ -96,8 +97,10 @@ const like_post = async (postId) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    await getLikedPosts();
     // Guarda likedPosts en AsyncStorage
     await AsyncStorage.setItem('likedPosts', JSON.stringify(likedPosts));
+    await AsyncStorage.setItem(`likedPost_${postId}`, 'true');
     
   } catch (error) {
     console.error('Error al realizar la petición:', error.message);
@@ -156,8 +159,10 @@ const like_post = async (postId) => {
       token_user=data.token;
       console.log('tomaa::',token);
       console.log('tomaa user::',data.user);
+      setuser(data.user);
       const storedLikedPosts = await AsyncStorage.getItem('likedPosts');
       setLikedPosts(JSON.parse(storedLikedPosts) || []);
+      await getPosts();
       if(token!=null){
         const settoken = await AsyncStorage.setItem('token',token);
       }
@@ -190,6 +195,8 @@ const like_post = async (postId) => {
         log_out,
         likedPosts,
         getLikedPosts,
+        check_token,
+        user,
         ...state
       }}
     >
