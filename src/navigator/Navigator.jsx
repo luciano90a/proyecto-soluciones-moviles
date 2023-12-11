@@ -18,7 +18,7 @@ export const Navigator = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      {status == 'noauth' ? (
+      {status === 'noauth' ? (
         <>
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Register" component={Register} />
