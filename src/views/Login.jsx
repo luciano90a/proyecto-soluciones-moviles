@@ -1,17 +1,23 @@
-import React, { useContext } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+/* eslint-disable prettier/prettier */
+import React, {useContext} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import users from '../api/Get_users';
-import { Authcontext } from '../context/Authcontext';
-import { useForm } from '../hooks/Form';
+import {Authcontext} from '../context/Authcontext';
+import {useForm} from '../hooks/Form';
 
-const Login = () => {//coment
+const Login = () => {
+  //coment
   const navigation = useNavigation();
-  const { sign_in } = useContext(Authcontext);
-  
-  
+  const {sign_in} = useContext(Authcontext);
 
-  const { email, password, onChange } = useForm({
+  const {email, password, onChange} = useForm({
     email: '',
     password: '',
   });
@@ -26,7 +32,7 @@ const Login = () => {//coment
   };
 
   const on_login = () => {
-    sign_in({ email, password });
+    sign_in({email, password});
   };
 
   const goToRegister = () => {
@@ -43,14 +49,14 @@ const Login = () => {//coment
         style={styles.input}
         autoCorrect={false}
         autoCapitalize="none"
-        onChangeText={(value) => onChange(value, 'email')}
+        onChangeText={value => onChange(value, 'email')}
         value={email}
       />
       <TextInput
         placeholder="Contraseña"
         secureTextEntry
         style={styles.input}
-        onChangeText={(value) => onChange(value, 'password')}
+        onChangeText={value => onChange(value, 'password')}
         value={password}
       />
 
@@ -59,7 +65,9 @@ const Login = () => {//coment
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.registerButton} onPress={goToRegister}>
-        <Text style={styles.registerText}>¿No tienes una cuenta? Regístrate</Text>
+        <Text style={styles.registerText}>
+          ¿No tienes una cuenta? Regístrate
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -109,5 +117,3 @@ const styles = StyleSheet.create({
 });
 
 export default Login;
-
-
