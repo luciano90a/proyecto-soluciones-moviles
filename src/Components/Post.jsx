@@ -10,9 +10,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Post = ({ post }) => {
 
    // const { like_post, likedPosts,getLikedPosts  } = useContext(Authcontext);
-    const { like_post, getLikedPosts,likedPosts,user,dislike_post } = useContext(Authcontext);
+    const { like_post, getLikedPosts,likedPosts,user,dislike_post,getPosts } = useContext(Authcontext);
     const [isLiked, setIsLiked] = useState(false);
     const [showLikedMessage, setShowLikedMessage] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = async () => {
+        setRefreshing(true);
+        // Realizar la solicitud para obtener nuevos datos
+        await getPosts();
+        setRefreshing(false);
+    };
     useEffect(() => {
         // Llamada a la función que obtiene los posts liked
         getLikedPosts();
@@ -31,7 +38,7 @@ const Post = ({ post }) => {
         setIsLiked(!isLiked);
         setShowLikedMessage(true);
         await AsyncStorage.setItem(`likedPost_${user.id}_${post.id}`, 'true');
-        
+        await onRefresh();
     }
     const handleDislike = async () => {
         try {
@@ -39,6 +46,8 @@ const Post = ({ post }) => {
           setIsLiked(false);
           setShowLikedMessage(false);
           await AsyncStorage.setItem(`likedPost_${user.id}_${post.id}`, 'false');
+          await onRefresh();
+          
         } catch (error) {
           console.error('Error al manejar el dislike:', error.message);
         }
