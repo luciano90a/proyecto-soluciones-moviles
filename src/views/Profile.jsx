@@ -134,10 +134,9 @@ const Profile = () => {
 
                     <View style={styles.container}>
                         <Text style={styles.title}>Seleccionar Foto</Text>
-                        <TouchableOpacity style={styles.button} onPress={choosePhoto}>
-                        <Text style={styles.buttonText}>Agregar Foto</Text>
-                        </TouchableOpacity>
-                        {selectedImage && <Image source={{ uri: selectedImage }} style={styles.image} />}
+                        <Button mode="contained" onPress={() => console.log('Pressed')}>
+                            Press me
+                        </Button>
                     </View>
 
                     {/* NavBar */}
