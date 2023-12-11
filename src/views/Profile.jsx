@@ -105,7 +105,7 @@ const Profile = () => {
         post_comments: 0,
         user_id: user.id,
       };
-  
+
       try {
         const { data } = Userapi.post('/api/post', post, {
           headers: {
@@ -138,29 +138,8 @@ const Profile = () => {
                         <Text style={styles.buttonText}>Agregar Foto</Text>
                         </TouchableOpacity>
                         {selectedImage && <Image source={{ uri: selectedImage }} style={styles.image} />}
-                        {/* Entradas de texto para el título y la descripción */}
-                        <PaperTextInput
-                        label="Título de la Publicación"
-                        value={postTitle}
-                        onChangeText={text => setPostTitle(text)}
-                        style={styles.input}
-                        />
-                        <PaperTextInput
-                        label="Descripción de la Publicación"
-                        value={postDescription}
-                        onChangeText={text => setPostDescription(text)}
-                        style={styles.input}
-                        />
-                
-                        {/* Botón debajo de la imagen */}
-                        <TouchableOpacity style={styles.alertButton} onPress={alerta}>
-                        <Text style={styles.buttonText}> Cancelar </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.alertButton} onPress={form_submit}>
-                        <Text style={styles.buttonText}> Post </Text>
-                        </TouchableOpacity>
-                        
-                        {/* Barra de navegación inferior */}
+
+                        {/* NavBar */}
                         <View style={styles.bottomBar}>
                         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
                             <Icon name="add-to-home-screen" size={25} color="black" />
