@@ -107,6 +107,29 @@ const like_post = async (postId) => {
   }
 };
 
+const dislike_post = async (postId) => {
+  const token = await AsyncStorage.getItem('token');
+
+  try {
+    const response = await Userapi.post(`/api/posts/${postId}/dislike`, null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    // Lógica adicional si es necesario
+    await getLikedPosts();
+    // Guarda likedPosts en AsyncStorage
+    await AsyncStorage.setItem('likedPosts', JSON.stringify(likedPosts));
+    await AsyncStorage.setItem(`likedPost_${postId}`, 'false');
+
+    console.log(response.data.message); // Puedes manejar la respuesta del servidor según tus necesidades
+  } catch (error) {
+    console.error('Error al realizar la petición:', error.message);
+  }
+};
+
+
   const sign_in=async({email , password}) => {
   console.log(email,password);
   try{
@@ -197,6 +220,7 @@ const like_post = async (postId) => {
         getLikedPosts,
         check_token,
         user,
+        dislike_post,
         ...state
       }}
     >

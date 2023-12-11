@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Post = ({ post }) => {
 
    // const { like_post, likedPosts,getLikedPosts  } = useContext(Authcontext);
-    const { like_post, getLikedPosts,likedPosts,user  } = useContext(Authcontext);
+    const { like_post, getLikedPosts,likedPosts,user,dislike_post } = useContext(Authcontext);
     const [isLiked, setIsLiked] = useState(false);
     const [showLikedMessage, setShowLikedMessage] = useState(false);
     useEffect(() => {
@@ -33,6 +33,16 @@ const Post = ({ post }) => {
         await AsyncStorage.setItem(`likedPost_${user.id}_${post.id}`, 'true');
         
     }
+    const handleDislike = async () => {
+        try {
+          await dislike_post(post.id);
+          setIsLiked(false);
+          setShowLikedMessage(false);
+          await AsyncStorage.setItem(`likedPost_${user.id}_${post.id}`, 'false');
+        } catch (error) {
+          console.error('Error al manejar el dislike:', error.message);
+        }
+      };
     return (
         <View style={styles.postContainer}>
             <View style={styles.postInfo}>
@@ -42,9 +52,9 @@ const Post = ({ post }) => {
             </View>
             <Image source={{ uri: post.post_image_dir }} style={styles.postImage} />
             <View style={styles.postFooter}>
-            <TouchableOpacity onPress={got_like}>
-                <Icon name={isLiked ? 'check-circle' : 'check-circle-outline'} color="black" size={30} />
-             </TouchableOpacity>
+            <TouchableOpacity onPress={isLiked ? handleDislike : got_like}>
+          <Icon name={isLiked ? 'check-circle' : 'check-circle-outline'} color="black" size={30} />
+        </TouchableOpacity>
                 <TouchableOpacity>
                 <Icon name="comment" color='black' size={30} />  
                 </TouchableOpacity>
