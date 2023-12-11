@@ -138,9 +138,10 @@ const Profile = () => {
                         <Text style={styles.buttonText}>Agregar Foto</Text>
                         </TouchableOpacity>
                         {selectedImage && <Image source={{ uri: selectedImage }} style={styles.image} />}
+                    </View>
 
-                        {/* NavBar */}
-                        <View style={styles.bottomBar}>
+                    {/* NavBar */}
+                    <View style={styles.bottomBar}>
                         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
                             <Icon name="add-to-home-screen" size={25} color="black" />
                         </TouchableOpacity>
@@ -150,7 +151,6 @@ const Profile = () => {
                         <TouchableOpacity onPress={() => navigation.navigate('Perfil')}>
                             <Icon name="person" size={25} color="black" />
                         </TouchableOpacity>
-                        </View>
                     </View>
                 </ScrollView>
             </SafeAreaView>
