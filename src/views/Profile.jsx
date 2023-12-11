@@ -181,12 +181,14 @@ const styles = StyleSheet.create({
     },
     imageContainer:{
         flex: 1,
-        width: '50%',
+        left: 0,
+        width: '49%',
         backgroundColor: "white",
     },
     profileContainer:{
         flex: 1,
-        width: '50%',
+        right: 0,
+        width: '49%',
         backgroundColor: "white",
     },
     logoutButton: {
