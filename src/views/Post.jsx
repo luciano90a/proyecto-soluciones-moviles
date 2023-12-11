@@ -1,15 +1,24 @@
-import React, { useContext, useState } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Platform, Alert } from 'react-native';
-import { launchImageLibrary } from 'react-native-image-picker';
+/* eslint-disable prettier/prettier */
+import React, {useContext, useState} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  Platform,
+  Alert,
+} from 'react-native';
+import {launchImageLibrary} from 'react-native-image-picker';
 import Userapi from '../api/Userapi';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Authcontext } from '../context/Authcontext';
-import { Button, TextInput as PaperTextInput } from 'react-native-paper';
+import {Authcontext} from '../context/Authcontext';
+import {Button, TextInput as PaperTextInput} from 'react-native-paper';
 
 const Post = () => {
-  const { user } = useContext(Authcontext);
-  const { token } = useContext(Authcontext);
+  const {user} = useContext(Authcontext);
+  const {token} = useContext(Authcontext);
   const [selectedImage, setSelectedImage] = useState(null);
   const [postTitle, setPostTitle] = useState('');
   const [postDescription, setPostDescription] = useState('');
@@ -29,7 +38,7 @@ const Post = () => {
           text: 'Confirmar',
         },
       ],
-      { cancelable: false }
+      {cancelable: false},
     );
   };
 
@@ -42,7 +51,7 @@ const Post = () => {
       },
     };
 
-    launchImageLibrary(options, (response) => {
+    launchImageLibrary(options, response => {
       if (response.errorCode) {
         console.log(response.errorCode);
       } else if (response.didCancel) {
@@ -60,26 +69,31 @@ const Post = () => {
       if (!selectedImage) {
         throw new Error('Selecciona una imagen primero.');
       }
-  
-      const uri = Platform.OS === 'android' ? selectedImage : selectedImage.replace('file://', '');
+
+      const uri =
+        Platform.OS === 'android'
+          ? selectedImage
+          : selectedImage.replace('file://', '');
       const form_data = new FormData();
       form_data.append('image', {
         uri,
         name: selectedImage.split('/').pop(),
         type: 'image/jpeg',
       });
-  
+
       const response = await Userapi.post('/api/upload', form_data, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
         },
       });
-  
+
       if (!response.data || !response.data.url) {
-        throw new Error('La respuesta del servidor no tiene la propiedad "url".');
+        throw new Error(
+          'La respuesta del servidor no tiene la propiedad "url".',
+        );
       }
-  
+
       return response.data;
     } catch (error) {
       console.log('Error al subir la imagen:', error.message);
@@ -107,7 +121,7 @@ const Post = () => {
     };
 
     try {
-      const { data } = Userapi.post('/api/post', post, {
+      const {data} = Userapi.post('/api/post', post, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -123,7 +137,9 @@ const Post = () => {
       <TouchableOpacity style={styles.button} onPress={choosePhoto}>
         <Text style={styles.buttonText}>Agregar Foto</Text>
       </TouchableOpacity>
-      {selectedImage && <Image source={{ uri: selectedImage }} style={styles.image} />}
+      {selectedImage && (
+        <Image source={{uri: selectedImage}} style={styles.image} />
+      )}
       {/* Entradas de texto para el título y la descripción */}
       <PaperTextInput
         label="Título de la Publicación"
@@ -145,7 +161,7 @@ const Post = () => {
       <TouchableOpacity style={styles.alertButton} onPress={form_submit}>
         <Text style={styles.buttonText}> Post </Text>
       </TouchableOpacity>
-      
+
       {/* Barra de navegación inferior */}
       <View style={styles.bottomBar}>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
@@ -211,8 +227,3 @@ const styles = StyleSheet.create({
 });
 
 export default Post;
-
-
-
-
-
