@@ -117,17 +117,21 @@ const Profile = () => {
       }
     };
 
-    useEffect(() => {
-        user.getName
-    })
   
     return (
         <Modal animationType="slide" visible={modalVisible}>
             <SafeAreaView>
                 <ScrollView>
-                    <View style={styles.container}>
-                        <Text></Text>
+                    <View style={styles.imageContainer}>
+                        <Text>Image</Text>
                     </View>
+
+                    <View style={styles.profileContainer}>
+                        <Text>Profile name</Text>
+                        <Text>Profile surname</Text>
+                        <Text>Profile nickname</Text>
+                    </View>
+
                     <View style={styles.container}>
                         <Text style={styles.title}>Seleccionar Foto</Text>
                         <TouchableOpacity style={styles.button} onPress={choosePhoto}>
@@ -195,6 +199,16 @@ const styles = StyleSheet.create({
         backgroundColor: 'darkcyan',
         alignContent: 'center',
         alignItems: 'center'
+    },
+    imageContainer:{
+        flex: 1,
+        width: '50%',
+        backgroundColor: "white",
+    },
+    profileContainer:{
+        flex: 1,
+        width: '50%',
+        backgroundColor: "white",
     },
     logoutButton: {
         position: 'absolute',
