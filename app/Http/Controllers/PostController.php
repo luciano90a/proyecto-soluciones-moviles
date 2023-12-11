@@ -47,6 +47,7 @@ class PostController extends Controller
 
             $comment->user()->associate($user);
             $comment->post()->associate($post);
+            $post->increment('post_comments');
             $comment->save();
 
             return response()->json(['message' => 'Comentario realizado con éxito'], 200);
