@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Like;
 use App\Http\Requests\Post\StorePostRequest;
@@ -9,6 +9,8 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Models\User;
 use app\Http\Controllers\Usercontroller;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -22,6 +24,54 @@ class PostController extends Controller
 
         return response()->json($posts, 200);
 
+    }
+    public function commentpost(Request $request, Post $post)
+    {
+        // Validaciones
+        $validator = Validator::make($request->all(), [
+            'comentario' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        }
+
+        try {
+            // Obtén el usuario autenticado
+            $user = auth()->user();
+
+            // Crea un nuevo comentario asociado al post y al usuario
+            $comment = new Comment([
+                'comentario' => $request->comentario,
+            ]);
+
+            $comment->user()->associate($user);
+            $comment->post()->associate($post);
+            $comment->save();
+
+            return response()->json(['message' => 'Comentario realizado con éxito'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al realizar el comentario'], 500);
+        }
+    }
+    public function getcommentpost(Request $request, $postId)
+    {
+        try {
+            // Encuentra el post por su ID
+            $post = Post::find($postId);
+
+            // Verifica si el post existe
+            if (!$post) {
+                return response()->json(['error' => 'Post no encontrado'], 404);
+            }
+
+            // Obtén los comentarios asociados al post
+            $comments = $post->comments;
+
+            return response()->json(['comments' => $comments], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al obtener los comentarios del post'], 500);
+        }
     }
 
     /**

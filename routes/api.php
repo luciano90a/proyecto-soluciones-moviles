@@ -31,7 +31,8 @@ Route::middleware('jwt.verify')->group(function () {
     Route::post('posts/{post}/like', [PostController::class, 'likePost']);
     Route::post('posts/{post}/dislike', [PostController::class, 'dislikePost']);
     Route::get('posts/liked', [PostController::class, 'getLikedPosts']);
-
+    Route::post('posts/{post}/comment', [PostController::class, 'commentpost']);
+    Route::get('posts/{post}/getcomment',[PostController::class,'getcommentpost']);
 });
 
 Route::get('users', [Usercontroller::class, 'index']);
