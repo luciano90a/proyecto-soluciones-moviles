@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity, Modal, TextInput, ScrollView } from 'react-native'
 import React,{ useContext,useState,useEffect } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Authcontext } from '../context/Authcontext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Userapi from '../api/Userapi';
 
 
 
@@ -14,6 +15,9 @@ const Post = ({ post }) => {
     const [isLiked, setIsLiked] = useState(false);
     const [showLikedMessage, setShowLikedMessage] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
+    const [commentText, setCommentText] = useState(''); // Estado para almacenar el texto del comentario
+    const [isCommentModalVisible, setCommentModalVisible] = useState(false); // Estado para mostrar/ocultar el modal de comentarios
+    const [comments, setComments] = useState([]);
     const onRefresh = async () => {
         setRefreshing(true);
         // Realizar la solicitud para obtener nuevos datos
@@ -33,6 +37,22 @@ const Post = ({ post }) => {
       
         loadLikedState();
       }, [post.id, likedPosts]);
+      const fetchComments = async () => {
+        const token = await AsyncStorage.getItem('token');
+        try {
+          const {data} = await Userapi.get(`api/posts/${post.id}/getcomment`,
+          {
+            headers: {
+              Authorization: 'Bearer ' + token
+            }
+          }
+          );
+          setComments(data.comments);
+            console.log(data.comments);
+        } catch (error) {
+          console.error('Error al obtener comentarios:', error.message);
+        }
+      };
     const got_like=async()=>{
         await like_post(post.id);
         setIsLiked(!isLiked);
@@ -52,6 +72,16 @@ const Post = ({ post }) => {
           console.error('Error al manejar el dislike:', error.message);
         }
       };
+      const toggleCommentModal = () => {
+        setCommentModalVisible(!isCommentModalVisible);
+      };
+      const handleCommentSubmit = async () => {
+        // Lógica para enviar el comentario al servidor
+        // ...
+        fetchComments();
+        // Cierra el modal después de enviar el comentario
+        setCommentModalVisible(false);
+      };
     return (
         <View style={styles.postContainer}>
             <View style={styles.postInfo}>
@@ -64,7 +94,7 @@ const Post = ({ post }) => {
             <TouchableOpacity onPress={isLiked ? handleDislike : got_like}>
           <Icon name={isLiked ? 'check-circle' : 'check-circle-outline'} color="black" size={30} />
         </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={toggleCommentModal}>
                 <Icon name="comment" color='black' size={30} />  
                 </TouchableOpacity>
             </View>
@@ -72,6 +102,34 @@ const Post = ({ post }) => {
             {!showLikedMessage && !isLiked && <Text style={styles.notLikedMessage}>Aún sin dar like</Text>}
             <Text style={styles.likes}>{post.post_likes} Me gusta</Text>
             <Text style={styles.likes}>{post.post_comments} comentarios</Text>
+             {/* Modal de Comentarios */}
+      <Modal visible={isCommentModalVisible} animationType="slide">
+        <View style={styles.commentModalContainer}>
+        <ScrollView style={styles.commentScrollView}>
+            {/* Mostrar comentarios */}
+            {comments.map((comment, index) => (
+              <View key={index} style={styles.commentItem}>
+                <Text>{comment.comentario}</Text>
+              </View>
+            ))}
+          </ScrollView>
+          <TextInput
+            style={styles.commentInput}
+            placeholder="Escribe un comentario..."
+            value={commentText}
+            onChangeText={(text) => setCommentText(text)}
+          />
+          <TouchableOpacity onPress={handleCommentSubmit} style={styles.commentButton}>
+            <Text style={styles.commentButtonText}>Enviar Comentario</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={toggleCommentModal} style={styles.closeButton}>
+            <Text style={styles.closeButtonText}>Cerrar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={fetchComments} style={styles.closeButton}>
+            <Text style={styles.closeButtonText}>reload</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
         </View>
     )
 }
