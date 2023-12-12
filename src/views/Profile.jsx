@@ -44,17 +44,7 @@ const Profile = () => {
       ],
       {cancelable: false},
     );
-  };
-
-  const choosePhoto = () => {
-    const options = {
-      title: 'Seleccionar Foto',
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-
+    
     launchImageLibrary(options, response => {
       if (response.errorCode) {
         console.log(response.errorCode);
