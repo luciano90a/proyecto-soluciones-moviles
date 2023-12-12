@@ -135,7 +135,7 @@ const Post = ({ post }) => {
             {/* Mostrar comentarios */}
             {comments.map((comment, index) => (
               <View key={index} style={styles.commentItem}>
-                <Text>{comment.comentario}</Text>
+                <Text style={styles.text_comment} >{comment.comentario}</Text>
               </View>
             ))}
           </ScrollView>
@@ -146,13 +146,13 @@ const Post = ({ post }) => {
             onChangeText={(text) => setCommentText(text)}
           />
           <TouchableOpacity onPress={sendComment} style={styles.commentButton}>
-            <Text style={styles.commentButtonText}>Enviar Comentario</Text>
+            <Text style={styles.ButtonText}>Enviar Comentario</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={toggleCommentModal} style={styles.closeButton}>
-            <Text style={styles.closeButtonText}>Cerrar</Text>
+            <Text style={styles.ButtonText}>Cerrar</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={fetchComments} style={styles.closeButton}>
-            <Text style={styles.closeButtonText}>reload</Text>
+          <TouchableOpacity onPress={fetchComments} style={styles.reloadButton}>
+            <Text style={styles.ButtonText}>reload</Text>
           </TouchableOpacity>
         </View>
       </Modal>
@@ -161,65 +161,66 @@ const Post = ({ post }) => {
 }
 
 const styles = StyleSheet.create({
-  postContainer: {
-    marginBottom: 16,
-    backgroundColor: 'green',
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignContent: 'center',
-    flex: 1,
-  },
-  postImage: {
-    width: '100%',
-    height: 300,
-    resizeMode: 'cover',
-    flex: 1,
-  },
-  postInfo: {
-    padding: 15,
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
-  },
-  postHeader: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignContent: 'center',
-    width: '80%',
-  },
-  name: {
-    color: 'black',
-    fontSize: 16,
-    fontWeight: 'bold',
-    backgroundColor: 'cyan',
-    borderRadius: 20,
-    justifyContent: 'center',
-    width: '110%',
-    paddingLeft: '41%',
-    alignContent: 'center',
-    textAlign: 'auto',
-  },
-  postFooter: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    gap: 16,
-    marginTop: 8,
-    marginBottom: 8,
-    marginLeft: 12,
-  },
-  likes: {
-    color: 'black',
-    fontWeight: 'bold',
-    marginBottom: 4,
-    marginLeft: 12,
-    backgroundColor: 'cyan',
-    borderRadius: 50,
-    width: '50%',
-  },
-  comments: {
-    color: '#888',
-  },
+    postContainer: {
+        marginBottom: 16,
+        backgroundColor:"green",
+        alignItems:'center',
+        justifyContent:'center',
+        alignContent:'center',
+        flex:1
+    },
+    postImage: {
+        width: '100%',
+        height: 300,
+        resizeMode: 'cover',
+        flex:1
+    },
+    postInfo: {
+        padding: 15,
+        justifyContent:'center',
+        alignContent:'center',
+        alignItems:'center'
+    },
+    postHeader: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignContent:'center',
+        width:'80%',
+        
+    },
+    name: {
+        color: 'black',
+        fontSize: 16,
+        fontWeight: 'bold',
+        backgroundColor:"cyan",
+        borderRadius:20,
+        justifyContent:'center',
+        width:'110%',
+        paddingLeft:'41%',
+        alignContent:'center',
+        textAlign:'auto'
+    },
+    postFooter: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        gap: 16,
+        marginTop: 8,
+        marginBottom: 8,
+        marginLeft: 12,
+    },
+    likes: {
+        color: 'black',
+        fontWeight: 'bold',
+        marginBottom: 4,
+        marginLeft: 12,
+        backgroundColor:"cyan",
+        borderRadius:50,
+        width:'50%'
+    },
+    comments: {
+        color: '#888',
+    },
 });
 
 export default Post;
