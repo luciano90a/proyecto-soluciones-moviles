@@ -135,7 +135,7 @@ const Post = ({ post }) => {
             {/* Mostrar comentarios */}
             {comments.map((comment, index) => (
               <View key={index} style={styles.commentItem}>
-                <Text>{comment.comentario}</Text>
+                <Text style={styles.text_comment} >{comment.comentario}</Text>
               </View>
             ))}
           </ScrollView>
@@ -146,13 +146,13 @@ const Post = ({ post }) => {
             onChangeText={(text) => setCommentText(text)}
           />
           <TouchableOpacity onPress={sendComment} style={styles.commentButton}>
-            <Text style={styles.commentButtonText}>Enviar Comentario</Text>
+            <Text style={styles.ButtonText}>Enviar Comentario</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={toggleCommentModal} style={styles.closeButton}>
-            <Text style={styles.closeButtonText}>Cerrar</Text>
+            <Text style={styles.ButtonText}>Cerrar</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={fetchComments} style={styles.closeButton}>
-            <Text style={styles.closeButtonText}>reload</Text>
+          <TouchableOpacity onPress={fetchComments} style={styles.reloadButton}>
+            <Text style={styles.ButtonText}>reload</Text>
           </TouchableOpacity>
         </View>
       </Modal>
@@ -161,6 +161,58 @@ const Post = ({ post }) => {
 }
 
 const styles = StyleSheet.create({
+    ButtonText:{
+        fontFamily:'fantasy',
+        fontSize:15,
+        padding:'2%',
+        color:'black'
+    },
+    reloadButton:{
+        backgroundColor:'yellow',
+        borderRadius:20,
+        marginTop:'2%',
+        borderWidth:3,
+        padding:'2%'
+    },
+    closeButton:{
+        backgroundColor:'red',
+        borderRadius:30,
+        marginTop:'2%',
+        borderWidth:4,
+        borderColor:'orange',
+        padding:'2%'
+    },
+    commentButton:{
+        backgroundColor:'green',
+        borderRadius:20,
+        marginTop:'5%',
+        borderWidth:4,
+        borderColor:'orange',
+        fontSize:10,
+    },
+    commentInput:{
+        backgroundColor:'orange',
+        borderRadius:50,
+        marginTop:'5%'
+    },
+    text_comment:{
+        fontSize:17,
+        color:'yellow',
+        fontFamily:'fantasy'
+    },
+    commentItem:{
+        backgroundColor:'blue',
+        borderRadius:80,
+        alignContent:'center',
+        justifyContent:'center',
+        textAlign:'center',
+        alignItems:'center',
+        width:'80%',
+        padding:'2%',
+        margin:'0.6%',
+        borderColor:'yellow',
+
+    },
     postContainer: {
         marginBottom: 16,
         backgroundColor:"green",
@@ -221,6 +273,19 @@ const styles = StyleSheet.create({
     comments: {
         color: '#888',
     },
+    commentModalContainer:{
+        alignItems:'center'
+    },
+    commentScrollView:{
+        backgroundColor:'aqua',
+        width:'100%',
+        height:'20%',
+        borderRadius:30,
+        marginTop:'10%',
+        borderColor:'cian',
+        borderWidth:5,
+        paddingLeft:'17%'
+    }
 });
 
 export default Post
