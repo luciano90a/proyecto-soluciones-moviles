@@ -105,38 +105,8 @@ const Profile = () => {
     }
   };
 
-  const form_submit = async () => {
-    const imageData = await uploadImage();
-
-    if (!imageData) {
-      console.log('Error al obtener datos de la imagen.');
-      return;
-    }
-
-    const uri = imageData.url;
-
-    const post = {
-      post_title: postTitle,
-      post_description: postDescription,
-      post_image_dir: uri,
-      post_likes: 0,
-      post_comments: 0,
-      user_id: user.id,
-    };
-
-    try {
-      const {data} = Userapi.post('/api/post', post, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
-    <Modal animationType="slide" visible={modalVisible}>
+    
       <SafeAreaView>
         <ScrollView>
           <View style={styles.imageContainer}>
@@ -170,7 +140,7 @@ const Profile = () => {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
-    </Modal>
+    
   );
 };
 
