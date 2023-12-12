@@ -9,6 +9,7 @@ import {
   Platform,
   Alert,
   Modal,
+  modalVisible,
   SafeAreaView,
   ScrollView,
 } from 'react-native';
@@ -26,36 +27,6 @@ const Profile = () => {
   const [postTitle, setPostTitle] = useState('');
   const [postDescription, setPostDescription] = useState('');
   const navigation = useNavigation();
-
-  const alerta = () => {
-    Alert.alert(
-      'Alerta',
-      'Este es el mensaje de alerta',
-      [
-        {
-          text: 'Cancelar',
-          onPress: () => Alert.alert('Cancelado'),
-          style: 'cancel',
-        },
-        {
-          text: 'Confirmar',
-        },
-      ],
-      {cancelable: false},
-    );
-    
-    launchImageLibrary(options, response => {
-      if (response.errorCode) {
-        console.log(response.errorCode);
-      } else if (response.didCancel) {
-        console.log('Cancelado por el usuario');
-      } else if (response.assets && response.assets.length > 0) {
-        const path = response.assets[0].uri;
-        setSelectedImage(path);
-        console.log(path);
-      }
-    });
-  };
 
   const uploadImage = async () => {
     try {
