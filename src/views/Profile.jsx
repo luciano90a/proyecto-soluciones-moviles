@@ -155,20 +155,20 @@ const Profile = () => {
               Press me
             </Button>
           </View>
-
-          {/* NavBar */}
-          <View style={styles.bottomBar}>
-            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-              <Icon name="add-to-home-screen" size={25} color="black" />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('Post')}>
-              <Icon name="add-to-photos" size={25} color="black" />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('Perfil')}>
-              <Icon name="person" size={25} color="black" />
-            </TouchableOpacity>
-          </View>
         </ScrollView>
+
+        {/* NavBar */}
+        <View style={styles.bottomBar}>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <Icon name="add-to-home-screen" size={25} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Post')}>
+            <Icon name="add-to-photos" size={25} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Perfil')}>
+            <Icon name="person" size={25} color="black" />
+          </TouchableOpacity>
+        </View>
       </SafeAreaView>
     </Modal>
   );
