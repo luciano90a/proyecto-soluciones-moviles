@@ -9,7 +9,6 @@ import {
   Platform,
   Alert,
   Modal,
-  modalVisible,
   SafeAreaView,
   ScrollView,
 } from 'react-native';
@@ -58,18 +57,86 @@ const Profile = () => {
     });
   };
 
+  const uploadImage = async () => {
+    try {
+      if (!selectedImage) {
+        throw new Error('Selecciona una imagen primero.');
+      }
+
+      const uri =
+        Platform.OS === 'android'
+          ? selectedImage
+          : selectedImage.replace('file://', '');
+      const form_data = new FormData();
+      form_data.append('image', {
+        uri,
+        name: selectedImage.split('/').pop(),
+        type: 'image/jpeg',
+      });
+
+      const response = await Userapi.post('/api/upload', form_data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (!response.data || !response.data.url) {
+        throw new Error(
+          'La respuesta del servidor no tiene la propiedad "url".',
+        );
+      }
+
+      return response.data;
+    } catch (error) {
+      console.log('Error al subir la imagen:', error.message);
+      throw error;
+    }
+  };
+
+  const form_submit = async () => {
+    const imageData = await uploadImage();
+
+    if (!imageData) {
+      console.log('Error al obtener datos de la imagen.');
+      return;
+    }
+
+    const uri = imageData.url;
+
+    const post = {
+      post_title: postTitle,
+      post_description: postDescription,
+      post_image_dir: uri,
+      post_likes: 0,
+      post_comments: 0,
+      user_id: user.id,
+    };
+
+    try {
+      const {data} = Userapi.post('/api/post', post, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
+    <Modal animationType="slide" visible={modalVisible}>
       <SafeAreaView>
-        <ScrollView style={styles.scrollView}>
+        <ScrollView>
           <View style={styles.imageContainer}>
             <Text>Image</Text>
           </View>
 
-          <View style={styles.profileContainer}>
-            <Text> ${user.name} </Text>
-            <Text> ${user.username} </Text>
-            <Text> ${user.lastname} </Text>
-          </View>
+        <View style={styles.profileContainer}>
+          <Text> ${user.name} </Text>
+          <Text> ${user.username} </Text>
+          <Text> ${user.lastname} </Text>
+        </View>
 
           <View style={styles.container}>
             <Text style={styles.title}>Seleccionar Foto</Text>
@@ -77,21 +144,22 @@ const Profile = () => {
               Press me
             </Button>
           </View>
-        </ScrollView>
 
-        {/* NavBar */}
-        <View style={styles.bottomBar}>
-          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-            <Icon name="add-to-home-screen" size={25} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Post')}>
-            <Icon name="add-to-photos" size={25} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Perfil')}>
-            <Icon name="person" size={25} color="black" />
-          </TouchableOpacity>
-        </View>
+          {/* NavBar */}
+          <View style={styles.bottomBar}>
+            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+              <Icon name="add-to-home-screen" size={25} color="black" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Post')}>
+              <Icon name="add-to-photos" size={25} color="black" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Perfil')}>
+              <Icon name="person" size={25} color="black" />
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </SafeAreaView>
+    </Modal>
   );
 };
 
@@ -164,3 +232,4 @@ const styles = StyleSheet.create({
 });
 
 export default Profile;
+
