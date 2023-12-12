@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity, Modal, TextInput, ScrollView } from 'react-native'
 import React,{ useContext,useState,useEffect } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {Authcontext} from '../context/Authcontext';
+import { Authcontext } from '../context/Authcontext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Userapi from '../api/Userapi';
 
@@ -161,6 +161,58 @@ const Post = ({ post }) => {
 }
 
 const styles = StyleSheet.create({
+    ButtonText:{
+        fontFamily:'fantasy',
+        fontSize:15,
+        padding:'2%',
+        color:'black'
+    },
+    reloadButton:{
+        backgroundColor:'yellow',
+        borderRadius:20,
+        marginTop:'2%',
+        borderWidth:3,
+        padding:'2%'
+    },
+    closeButton:{
+        backgroundColor:'red',
+        borderRadius:30,
+        marginTop:'2%',
+        borderWidth:4,
+        borderColor:'orange',
+        padding:'2%'
+    },
+    commentButton:{
+        backgroundColor:'green',
+        borderRadius:20,
+        marginTop:'5%',
+        borderWidth:4,
+        borderColor:'orange',
+        fontSize:10,
+    },
+    commentInput:{
+        backgroundColor:'orange',
+        borderRadius:50,
+        marginTop:'5%'
+    },
+    text_comment:{
+        fontSize:17,
+        color:'yellow',
+        fontFamily:'fantasy'
+    },
+    commentItem:{
+        backgroundColor:'blue',
+        borderRadius:80,
+        alignContent:'center',
+        justifyContent:'center',
+        textAlign:'center',
+        alignItems:'center',
+        width:'80%',
+        padding:'2%',
+        margin:'0.6%',
+        borderColor:'yellow',
+
+    },
     postContainer: {
         marginBottom: 16,
         backgroundColor:"green",
@@ -221,6 +273,19 @@ const styles = StyleSheet.create({
     comments: {
         color: '#888',
     },
+    commentModalContainer:{
+        alignItems:'center'
+    },
+    commentScrollView:{
+        backgroundColor:'aqua',
+        width:'100%',
+        height:'20%',
+        borderRadius:30,
+        marginTop:'10%',
+        borderColor:'cian',
+        borderWidth:5,
+        paddingLeft:'17%'
+    }
 });
 
-export default Post;
+export default Post
