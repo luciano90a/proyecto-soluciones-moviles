@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, {useContext, useEffect, useState} from 'react';
 import {
   View,
@@ -142,9 +143,9 @@ const Profile = () => {
           </View>
 
           <View style={styles.profileContainer}>
-            <Text>Profile name</Text>
-            <Text>Profile surname</Text>
-            <Text>Profile nickname</Text>
+            <Text> ${user.name} </Text>
+            <Text> ${user.username} </Text>
+            <Text> ${user.lastname} </Text>
           </View>
 
           <View style={styles.container}>
