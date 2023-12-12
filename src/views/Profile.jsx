@@ -9,6 +9,7 @@ import {
   Platform,
   Alert,
   Modal,
+  modalVisible,
   SafeAreaView,
   ScrollView,
 } from 'react-native';
