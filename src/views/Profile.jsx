@@ -103,7 +103,10 @@ const styles = StyleSheet.create({
     fontSize:23,
     fontFamily:'fantasy',
     borderWidth:5,
-    borderColor:'red'
+    borderColor:'red',
+    textAlign:'center',
+    width:'100%',
+    color:'black'
   },
   flatList: {
     flexGrow: 1, //  FlatList se expanda según el contenido
