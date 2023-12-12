@@ -68,47 +68,9 @@ const Profile = () => {
     });
   };
 
-  const uploadImage = async () => {
-    try {
-      if (!selectedImage) {
-        throw new Error('Selecciona una imagen primero.');
-      }
-
-      const uri =
-        Platform.OS === 'android'
-          ? selectedImage
-          : selectedImage.replace('file://', '');
-      const form_data = new FormData();
-      form_data.append('image', {
-        uri,
-        name: selectedImage.split('/').pop(),
-        type: 'image/jpeg',
-      });
-
-      const response = await Userapi.post('/api/upload', form_data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      if (!response.data || !response.data.url) {
-        throw new Error(
-          'La respuesta del servidor no tiene la propiedad "url".',
-        );
-      }
-
-      return response.data;
-    } catch (error) {
-      console.log('Error al subir la imagen:', error.message);
-      throw error;
-    }
-  };
-
   return (
-    
       <SafeAreaView>
-        <ScrollView>
+        <ScrollView style={styles.scrollView}>
           <View style={styles.imageContainer}>
             <Text>Image</Text>
           </View>
@@ -140,7 +102,6 @@ const Profile = () => {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
-    
   );
 };
 
@@ -149,8 +110,8 @@ const styles = StyleSheet.create({
     flexGrow: 1, //  FlatList se expanda según el contenido
   },
   scrollView: {
-    backgroundColor: 'white',
     width: '80%',
+    height: 'auto',
     flex: 1,
   },
   item: {
