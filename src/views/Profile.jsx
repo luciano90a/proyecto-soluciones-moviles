@@ -104,12 +104,43 @@ const Profile = () => {
     }
   };
 
+  const form_submit = async () => {
+    const imageData = await uploadImage();
+
+    if (!imageData) {
+      console.log('Error al obtener datos de la imagen.');
+      return;
+    }
+
+    const uri = imageData.url;
+
+    const post = {
+      post_title: postTitle,
+      post_description: postDescription,
+      post_image_dir: uri,
+      post_likes: 0,
+      post_comments: 0,
+      user_id: user.id,
+    };
+
+    try {
+      const {data} = Userapi.post('/api/post', post, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <ScrollView>
-        <View style={styles.imageContainer}>
-          <Text>Image</Text>
-        </View>
+    <Modal animationType="slide" visible={modalVisible}>
+      <SafeAreaView>
+        <ScrollView>
+          <View style={styles.imageContainer}>
+            <Text>Image</Text>
+          </View>
 
         <View style={styles.profileContainer}>
           <Text> ${user.name} </Text>
@@ -117,27 +148,28 @@ const Profile = () => {
           <Text> ${user.lastname} </Text>
         </View>
 
-        <View style={styles.container}>
-          <Text style={styles.title}>Seleccionar Foto</Text>
-          <Button mode="contained" onPress={() => console.log('Pressed')}>
-            Press me
-          </Button>
-        </View>
-      </ScrollView>
+          <View style={styles.container}>
+            <Text style={styles.title}>Seleccionar Foto</Text>
+            <Button mode="contained" onPress={() => console.log('Pressed')}>
+              Press me
+            </Button>
+          </View>
 
-      {/* NavBar */}
-      <View style={styles.bottomBar}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-          <Icon name="add-to-home-screen" size={25} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Post')}>
-          <Icon name="add-to-photos" size={25} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-          <Icon name="person" size={25} color="black" />
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+          {/* NavBar */}
+          <View style={styles.bottomBar}>
+            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+              <Icon name="add-to-home-screen" size={25} color="black" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Post')}>
+              <Icon name="add-to-photos" size={25} color="black" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Perfil')}>
+              <Icon name="person" size={25} color="black" />
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </Modal>
   );
 };
 
@@ -146,8 +178,8 @@ const styles = StyleSheet.create({
     flexGrow: 1, //  FlatList se expanda según el contenido
   },
   scrollView: {
-    backgroundColor: 'white',
     width: '80%',
+    height: 'auto',
     flex: 1,
   },
   item: {
